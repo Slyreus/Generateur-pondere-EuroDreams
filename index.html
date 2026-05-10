@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Eurodreams - Tirage pondéré</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="brand-block">
+          <div class="brand-mark" aria-hidden="true">ED</div>
+          <div>
+            <p class="eyebrow">Eurodreams</p>
+            <h1>Tirage pondéré</h1>
+            <p class="data-note">Statistiques fournies - dernière mise à jour : <strong>27/04/26</strong></p>
+          </div>
+        </div>
+
+        <div class="control-strip" aria-label="Commandes de tirage">
+          <button class="primary-action" id="drawButton" type="button">Tirer la première boule</button>
+          <button class="secondary-action" id="resetButton" type="button">Reset</button>
+        </div>
+      </header>
+
+      <section class="draw-stage" aria-labelledby="drawTitle">
+        <div class="stage-copy">
+          <p class="eyebrow">Tirage en cours</p>
+          <h2 id="drawTitle">6 numéros + 1 numéro Dream</h2>
+          <div class="progress-line" aria-hidden="true">
+            <span id="progressFill"></span>
+          </div>
+          <p class="live-status" id="liveStatus" aria-live="polite">Prêt pour le tirage pondéré.</p>
+        </div>
+
+        <div class="slot-panel" aria-label="Résultat actuel">
+          <div class="slot-group" id="mainSlots"></div>
+          <div class="dream-slot-wrap">
+            <span class="dream-label">Dream</span>
+            <div class="slot dream-slot" id="dreamSlot">-</div>
+          </div>
+        </div>
+
+        <div class="metrics-grid" id="metricsGrid" aria-label="Métriques de tirage"></div>
+        <div class="celebration-layer" id="celebrationLayer" aria-hidden="true"></div>
+      </section>
+
+      <section class="content-grid">
+        <section class="data-section numbers-section" aria-labelledby="numbersTitle">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Numéros principaux</p>
+              <h2 id="numbersTitle">Pondération 1 à 40</h2>
+            </div>
+            <div class="legend" aria-label="Légende">
+              <span><i class="legend-dot original"></i>Poids relatif</span>
+              <span><i class="legend-dot selected"></i>Tiré</span>
+            </div>
+          </div>
+          <div class="method-note">
+            <span><strong>Historique</strong> = part des tirages observés où le numéro est sorti.</span>
+            <span><strong>Prochaine</strong> = poids du numéro divisé par la somme des poids encore disponibles.</span>
+            <span><strong>Barre bleue</strong> = poids historique relatif au numéro le plus fort.</span>
+          </div>
+          <div class="number-grid main-grid" id="numberGrid"></div>
+        </section>
+
+        <aside class="side-stack">
+          <section class="data-section dream-section" aria-labelledby="dreamTitle">
+            <div class="section-heading compact-heading">
+              <div>
+                <p class="eyebrow">Numéro Dream</p>
+                <h2 id="dreamTitle">Pondération 1 à 5</h2>
+              </div>
+            </div>
+            <div class="number-grid dream-grid" id="dreamGrid"></div>
+          </section>
+
+          <section class="data-section chart-section" aria-labelledby="chartTitle">
+            <div class="section-heading compact-heading">
+              <div>
+                <p class="eyebrow">Lecture instantanée</p>
+                <h2 id="chartTitle">Top pondérations restantes</h2>
+              </div>
+            </div>
+            <div class="bars" id="topBars"></div>
+          </section>
+
+          <section class="data-section history-section" aria-labelledby="historyTitle">
+            <div class="section-heading compact-heading">
+              <div>
+                <p class="eyebrow">Journal</p>
+                <h2 id="historyTitle">Séquence du tirage</h2>
+              </div>
+            </div>
+            <ol class="history-list" id="historyList"></ol>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
