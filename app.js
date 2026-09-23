@@ -62,6 +62,7 @@ const state = {
 };
 
 const els = {
+  drawAllButton: document.querySelector("#drawAllButton"),
   drawButton: document.querySelector("#drawButton"),
   resetButton: document.querySelector("#resetButton"),
   liveStatus: document.querySelector("#liveStatus"),
@@ -73,6 +74,7 @@ const els = {
   topBars: document.querySelector("#topBars"),
   historyList: document.querySelector("#historyList"),
   progressFill: document.querySelector("#progressFill"),
+  drawProgress: document.querySelector("#drawProgress"),
   celebrationLayer: document.querySelector("#celebrationLayer"),
 };
 
@@ -91,8 +93,9 @@ const weightFormatter = new Intl.NumberFormat("fr-FR", {
   maximumFractionDigits: 2,
 });
 
-const mainOrdinals = ["première", "deuxième", "troisième", "quatrième", "cinquième", "sixième"];
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 let recentTimer = null;
+let celebrationTimer = null;
 
 function sleep(ms) {
   return new Promise((resolve) => window.setTimeout(resolve, ms));
@@ -204,7 +207,8 @@ async function drawNext() {
   window.clearTimeout(recentTimer);
   render();
 
-  for (let frame = 0; frame < 24; frame += 1) {
+  const frames = reducedMotion.matches ? 0 : 16;
+  for (let frame = 0; frame < frames; frame += 1) {
     if (state.animationToken !== token) {
       return;
     }
@@ -216,7 +220,9 @@ async function drawNext() {
       state.previewDream = preview;
     }
 
-    render();
+    renderMainSlots();
+    renderNumbers();
+    renderTopBars();
     await sleep(24 + frame * 5);
   }
 
@@ -229,6 +235,26 @@ async function drawNext() {
   state.isAnimating = false;
   state.rollKind = null;
 
+  recordPick(phase, pick);
+  finishDraw();
+}
+
+function drawAll() {
+  if (state.isAnimating || isComplete()) {
+    return;
+  }
+
+  window.clearTimeout(recentTimer);
+  // Rebuild the pool after every pick, including when completing a partial draw.
+  let phase = getPhase();
+  while (!phase.done) {
+    recordPick(phase, weightedPick(phase.items));
+    phase = getPhase();
+  }
+  finishDraw();
+}
+
+function recordPick(phase, pick) {
   if (phase.kind === "main") {
     state.mainDraw.push(pick.item.number);
     state.recentPick = {
@@ -260,7 +286,9 @@ async function drawNext() {
       chance: pick.chanceBefore,
     });
   }
+}
 
+function finishDraw() {
   render();
   clearRecentPickSoon(state.recentPick);
 
@@ -277,6 +305,7 @@ function clearRecentPickSoon(snapshot) {
       renderMainSlots();
       renderNumbers();
       renderHistory();
+      renderLiveStatus();
     }
   }, 1250);
 }
@@ -292,6 +321,7 @@ function resetDraw() {
   state.previewDream = null;
   state.recentPick = null;
   window.clearTimeout(recentTimer);
+  window.clearTimeout(celebrationTimer);
   els.celebrationLayer.innerHTML = "";
   render();
 }
@@ -317,7 +347,8 @@ function renderMainSlots() {
     ]
       .filter(Boolean)
       .join(" ");
-    slot.textContent = value || (isRolling && state.previewMain ? state.previewMain : i + 1);
+    slot.textContent = value || (isRolling && state.previewMain ? state.previewMain : "—");
+    slot.setAttribute("aria-label", `Boule ${i + 1} : ${value || (isRolling ? "en cours" : "à tirer")}`);
     els.mainSlots.append(slot);
   }
 
@@ -332,51 +363,40 @@ function renderMainSlots() {
   ]
     .filter(Boolean)
     .join(" ");
-  els.dreamSlot.textContent = state.dreamDraw || (dreamRolling && state.previewDream ? state.previewDream : "-");
+  els.dreamSlot.textContent = state.dreamDraw || (dreamRolling && state.previewDream ? state.previewDream : "—");
+  els.dreamSlot.setAttribute("aria-label", `Dream : ${state.dreamDraw || (dreamRolling ? "en cours" : "à tirer")}`);
 }
 
 function renderButton() {
+  const complete = isComplete();
+  els.drawAllButton.disabled = state.isAnimating || complete;
+  els.drawAllButton.textContent = complete ? "Terminé" : state.mainDraw.length ? "Compléter" : "Tout tirer";
   els.drawButton.classList.toggle("is-loading", state.isAnimating);
   els.drawButton.setAttribute("aria-busy", String(state.isAnimating));
-
-  if (state.isAnimating) {
-    els.drawButton.disabled = true;
-    els.drawButton.textContent = state.rollKind === "dream" ? "Le Dream tourne..." : "La boule tourne...";
-  } else if (state.mainDraw.length < 6) {
-    els.drawButton.disabled = false;
-    els.drawButton.textContent = `Tirer la ${mainOrdinals[state.mainDraw.length]} boule`;
-  } else if (state.dreamDraw === null) {
-    els.drawButton.disabled = false;
-    els.drawButton.textContent = "Tirer le numéro Dream";
-  } else {
-    els.drawButton.disabled = true;
-    els.drawButton.textContent = "Tirage terminé";
-  }
+  els.drawButton.disabled = state.isAnimating || complete;
+  els.drawButton.textContent = state.isAnimating ? "Tirage…" : state.mainDraw.length < 6 ? "1 boule" : "Dream";
 
   const doneSteps = state.mainDraw.length + (state.dreamDraw === null ? 0 : 1);
   const animatedStep = state.isAnimating ? 0.48 : 0;
   els.progressFill.style.width = `${Math.min(((doneSteps + animatedStep) / 7) * 100, 100)}%`;
+  els.drawProgress.setAttribute("aria-valuenow", String(doneSteps));
 }
 
 function renderLiveStatus() {
-  let message = "Prêt : les probabilités sont recalculées après chaque boule.";
+  const doneSteps = state.history.length;
+  let message = doneSteps ? `${doneSteps}/7 tirés` : "Prêt · 0/7";
 
   if (state.isAnimating) {
-    const phase = getPhase();
-    const preview = state.rollKind === "dream" ? state.previewDream : state.previewMain;
-    message = preview
-      ? `Rotation de la ${phase.label} : le ${preview} passe dans la fenêtre.`
-      : `Préparation de la ${phase.label} avec tirage pondéré.`;
-  } else if (state.recentPick) {
-    const label = state.recentPick.kind === "dream" ? "Dream" : `Boule ${state.recentPick.position}`;
-    message = `${label} tiré : ${state.recentPick.number}, avec ${percentFormatter.format(
-      state.recentPick.chance,
-    )}% de chance au moment du tirage.`;
+    message = state.rollKind === "dream" ? "Dream…" : `Boule ${state.mainDraw.length + 1}/6…`;
   } else if (isComplete()) {
-    message = `Ticket final : ${[...state.mainDraw].sort((a, b) => a - b).join(" - ")} | Dream ${state.dreamDraw}.`;
+    message = "Terminé · 7/7";
+  } else if (state.recentPick) {
+    message = `${doneSteps}/7 · N° ${state.recentPick.number}`;
   }
 
-  els.liveStatus.innerHTML = `<span class="status-dot"></span>${message}`;
+  if (els.liveStatus.textContent !== message) {
+    els.liveStatus.textContent = message;
+  }
 }
 
 function renderMetrics() {
@@ -393,14 +413,14 @@ function renderMetrics() {
   const metrics = [
     {
       label: "Étape",
-      value: state.isAnimating ? `Rotation ${phase.label}` : `${state.mainDraw.length}/6 numéros`,
+      value: state.isAnimating ? `${phase.label}…` : `${state.history.length}/7`,
     },
     {
       label: "Poids restant",
       value: `${weightFormatter.format(totalRemaining)} pts`,
     },
     {
-      label: "Numéros disponibles",
+      label: "Disponibles",
       value: `${availableMain.length}/40`,
     },
     {
@@ -413,7 +433,7 @@ function renderMetrics() {
     },
     {
       label: "Moyenne tirée",
-      value: selectedMain.length ? `${weightFormatter.format(averageWeight(selectedMain))} pts` : "En attente",
+      value: selectedMain.length ? `${weightFormatter.format(averageWeight(selectedMain))} pts` : "—",
     },
     {
       label: "Dream favori",
@@ -424,8 +444,8 @@ function renderMetrics() {
       value: `${weightFormatter.format(sumWeight(MAIN_DATA))} pts`,
     },
     {
-      label: "Ticket actuel",
-      value: state.mainDraw.length ? [...state.mainDraw].sort((a, b) => a - b).join(" - ") : "Aucun numéro",
+      label: "Ticket trié",
+      value: state.mainDraw.length ? [...state.mainDraw].sort((a, b) => a - b).join(" · ") : "—",
     },
   ];
 
@@ -436,44 +456,35 @@ function renderMetrics() {
 
 function ensureTiles() {
   if (!tileRefs.main.size) {
-    MAIN_DATA.forEach((item, index) => {
-      const tile = createTileElement(index);
+    MAIN_DATA.forEach((item) => {
+      const tile = createTileElement();
       tileRefs.main.set(item.number, tile);
       els.numberGrid.append(tile);
     });
   }
 
   if (!tileRefs.dream.size) {
-    DREAM_DATA.forEach((item, index) => {
-      const tile = createTileElement(index);
+    DREAM_DATA.forEach((item) => {
+      const tile = createTileElement();
       tileRefs.dream.set(item.number, tile);
       els.dreamGrid.append(tile);
     });
   }
 }
 
-function createTileElement(index) {
+function createTileElement() {
   const tile = document.createElement("article");
   tile.className = "number-tile";
-  tile.style.setProperty("--stagger", `${index * 16}ms`);
   tile.innerHTML = `
     <div class="tile-top">
       <span class="tile-number" data-role="number"></span>
       <span class="tile-order" data-role="order"></span>
-    </div>
-    <div class="tile-body">
       <span class="tile-sorties" data-role="sorties"></span>
-      <div class="tile-kpis">
-        <div class="tile-kpi">
-          <span>Historique</span>
-          <strong data-role="weight"></strong>
-        </div>
-        <div class="tile-kpi chance-kpi">
-          <span data-role="chanceLabel">Prochaine</span>
-          <strong data-role="chance"></strong>
-        </div>
-      </div>
-      <span class="tile-state" data-role="status"></span>
+    </div>
+    <div class="tile-kpis">
+      <strong data-role="weight" title="Fréquence historique"></strong>
+      <span class="tile-arrow" aria-hidden="true">→</span>
+      <strong class="tile-chance" data-role="chance"></strong>
     </div>
     <div class="weight-meter" aria-hidden="true"><span data-role="weightFill"></span></div>
   `;
@@ -503,13 +514,6 @@ function updateTile(item, options) {
     .filter(Boolean)
     .join(" ");
   tile.style.setProperty("--weight-width", `${Math.max(0, weightWidth)}%`);
-  tile.setAttribute(
-    "aria-label",
-    `${options.label} ${item.number}, historique ${item.weight} pour cent, prochaine ${
-      isSelected ? "déjà tiré" : `${percentFormatter.format(probability)} pour cent`
-    }`,
-  );
-
   const status = isSelected
     ? "Tiré"
     : isPreview
@@ -521,15 +525,18 @@ function updateTile(item, options) {
           : "En course";
   const chanceLabel = isSelected ? "Au tirage" : "Prochaine";
   const chanceValue = isSelected && historyEntry ? historyEntry.chance : probability;
+  const description = `${options.label} ${item.number}, ${item.sorties} sorties, historique ${weightFormatter.format(item.weight)} %, ${chanceLabel.toLowerCase()} ${percentFormatter.format(chanceValue)} %, ${status.toLowerCase()}${order ? ` (${order})` : ""}`;
+  tile.setAttribute("aria-label", description);
+  tile.title = description;
 
   tile.querySelector('[data-role="number"]').textContent = item.number;
   tile.querySelector('[data-role="order"]').textContent = order;
+  tile.querySelector('[data-role="order"]').setAttribute("aria-label", order ? `Ordre du tirage : ${order}` : "");
   tile.querySelector('[data-role="sorties"]').textContent = `${item.sorties} sorties`;
   tile.querySelector('[data-role="weight"]').textContent = `${weightFormatter.format(item.weight)}%`;
-  tile.querySelector('[data-role="chanceLabel"]').textContent = chanceLabel;
+  tile.querySelector('[data-role="chance"]').title = chanceLabel;
   tile.querySelector('[data-role="chance"]').textContent =
-    isMuted && !isSelected ? "-" : `${percentFormatter.format(chanceValue)}%`;
-  tile.querySelector('[data-role="status"]').textContent = status;
+    isMuted && !isSelected ? "—" : `${percentFormatter.format(chanceValue)}%`;
   tile.querySelector('[data-role="weightFill"]').style.width = `${Math.max(0, weightWidth)}%`;
 }
 
@@ -576,7 +583,7 @@ function renderTopBars() {
   const maxProbability = Math.max(...topItems.map((item) => item.probability), 0);
 
   if (!topItems.length) {
-    els.topBars.innerHTML = `<p class="empty-state">Le tirage est complet.</p>`;
+    els.topBars.innerHTML = `<p class="empty-state">Terminé</p>`;
     return;
   }
 
@@ -597,7 +604,7 @@ function renderTopBars() {
 
 function renderHistory() {
   if (!state.history.length) {
-    els.historyList.innerHTML = `<li class="empty-state">Aucun tirage lancé.</li>`;
+    els.historyList.innerHTML = `<li class="empty-state">—</li>`;
     return;
   }
 
@@ -605,9 +612,10 @@ function renderHistory() {
     .map((entry, index) => {
       const isLast = index === state.history.length - 1 && state.recentPick;
       return `
-        <li class="${isLast ? "history-new" : ""}">
-          <strong>${entry.label} : ${entry.number}</strong><br />
-          poids ${weightFormatter.format(entry.weight)}%, chance ${percentFormatter.format(entry.chance)}%
+        <li class="${isLast ? "history-new" : ""}" aria-label="${entry.label} : ${entry.number}, historique ${weightFormatter.format(entry.weight)} %, au tirage ${percentFormatter.format(entry.chance)} %">
+          <strong><small>${entry.type === "dream" ? "D" : index + 1}</small>${entry.number}</strong>
+          <span>${weightFormatter.format(entry.weight)}%</span>
+          <span>${percentFormatter.format(entry.chance)}%</span>
         </li>
       `;
     })
@@ -615,8 +623,12 @@ function renderHistory() {
 }
 
 function launchCelebration() {
+  window.clearTimeout(celebrationTimer);
   const colors = ["#78d8a5", "#2f6fe4", "#f2b84b", "#ffffff", "#45c2b3"];
   els.celebrationLayer.innerHTML = "";
+  if (reducedMotion.matches) {
+    return;
+  }
 
   for (let i = 0; i < 36; i += 1) {
     const spark = document.createElement("span");
@@ -630,7 +642,7 @@ function launchCelebration() {
     els.celebrationLayer.append(spark);
   }
 
-  window.setTimeout(() => {
+  celebrationTimer = window.setTimeout(() => {
     els.celebrationLayer.innerHTML = "";
   }, 1500);
 }
@@ -646,19 +658,30 @@ function render() {
   renderHistory();
 }
 
+els.drawAllButton.addEventListener("click", drawAll);
 els.drawButton.addEventListener("click", drawNext);
 els.resetButton.addEventListener("click", resetDraw);
 
 document.addEventListener("keydown", (event) => {
-  const key = event.key.toLowerCase();
-
-  if (key === " " || key === "enter") {
-    event.preventDefault();
-    drawNext();
+  if (event.repeat || event.ctrlKey || event.altKey || event.metaKey || event.shiftKey || event.isComposing || event.defaultPrevented) {
+    return;
   }
+  if (event.target.closest("input, select, textarea, [contenteditable]")) {
+    return;
+  }
+  const key = event.key.toLowerCase();
 
   if (key === "r") {
     resetDraw();
+    return;
+  }
+
+  if (event.target.closest("button, a, summary")) {
+    return;
+  }
+  if (key === " " || key === "enter") {
+    event.preventDefault();
+    drawNext();
   }
 });
 
