@@ -1,52 +1,52 @@
 const MAIN_DATA = [
-  { number: 1, sorties: 36, weight: 13.9 },
-  { number: 2, sorties: 37, weight: 14.29 },
-  { number: 3, sorties: 45, weight: 17.37 },
-  { number: 4, sorties: 41, weight: 15.83 },
-  { number: 5, sorties: 35, weight: 13.51 },
-  { number: 6, sorties: 33, weight: 12.74 },
-  { number: 7, sorties: 39, weight: 15.06 },
-  { number: 8, sorties: 50, weight: 19.31 },
-  { number: 9, sorties: 35, weight: 13.51 },
-  { number: 10, sorties: 37, weight: 14.29 },
-  { number: 11, sorties: 36, weight: 13.9 },
-  { number: 12, sorties: 28, weight: 10.81 },
-  { number: 13, sorties: 34, weight: 13.13 },
-  { number: 14, sorties: 38, weight: 14.67 },
-  { number: 15, sorties: 48, weight: 18.53 },
-  { number: 16, sorties: 34, weight: 13.13 },
-  { number: 17, sorties: 34, weight: 13.13 },
-  { number: 18, sorties: 40, weight: 15.44 },
-  { number: 19, sorties: 50, weight: 19.31 },
-  { number: 20, sorties: 34, weight: 13.13 },
-  { number: 21, sorties: 49, weight: 18.92 },
-  { number: 22, sorties: 42, weight: 16.22 },
-  { number: 23, sorties: 52, weight: 20.08 },
-  { number: 24, sorties: 49, weight: 18.92 },
-  { number: 25, sorties: 35, weight: 13.51 },
-  { number: 26, sorties: 37, weight: 14.29 },
-  { number: 27, sorties: 36, weight: 13.9 },
-  { number: 28, sorties: 41, weight: 15.83 },
-  { number: 29, sorties: 30, weight: 11.58 },
-  { number: 30, sorties: 42, weight: 16.22 },
-  { number: 31, sorties: 36, weight: 13.9 },
-  { number: 32, sorties: 41, weight: 15.83 },
-  { number: 33, sorties: 43, weight: 16.6 },
-  { number: 34, sorties: 36, weight: 13.9 },
-  { number: 35, sorties: 36, weight: 13.9 },
-  { number: 36, sorties: 27, weight: 10.42 },
-  { number: 37, sorties: 48, weight: 18.53 },
-  { number: 38, sorties: 41, weight: 15.83 },
-  { number: 39, sorties: 34, weight: 13.13 },
-  { number: 40, sorties: 35, weight: 13.51 },
+  { number: 1, sorties: 41, weight: 13.62, lastDraw: "2026-09-07" },
+  { number: 2, sorties: 41, weight: 13.62, lastDraw: "2026-09-14" },
+  { number: 3, sorties: 54, weight: 17.94, lastDraw: "2026-09-10" },
+  { number: 4, sorties: 52, weight: 17.28, lastDraw: "2026-09-21" },
+  { number: 5, sorties: 38, weight: 12.62, lastDraw: "2026-07-09" },
+  { number: 6, sorties: 38, weight: 12.62, lastDraw: "2026-09-10" },
+  { number: 7, sorties: 43, weight: 14.29, lastDraw: "2026-08-10" },
+  { number: 8, sorties: 54, weight: 17.94, lastDraw: "2026-09-17" },
+  { number: 9, sorties: 43, weight: 14.29, lastDraw: "2026-08-10" },
+  { number: 10, sorties: 42, weight: 13.95, lastDraw: "2026-09-17" },
+  { number: 11, sorties: 42, weight: 13.95, lastDraw: "2026-09-21" },
+  { number: 12, sorties: 41, weight: 13.62, lastDraw: "2026-09-10" },
+  { number: 13, sorties: 40, weight: 13.29, lastDraw: "2026-09-17" },
+  { number: 14, sorties: 44, weight: 14.62, lastDraw: "2026-08-31" },
+  { number: 15, sorties: 52, weight: 17.28, lastDraw: "2026-09-14" },
+  { number: 16, sorties: 40, weight: 13.29, lastDraw: "2026-07-27" },
+  { number: 17, sorties: 44, weight: 14.62, lastDraw: "2026-09-17" },
+  { number: 18, sorties: 46, weight: 15.28, lastDraw: "2026-09-14" },
+  { number: 19, sorties: 54, weight: 17.94, lastDraw: "2026-08-20" },
+  { number: 20, sorties: 43, weight: 14.29, lastDraw: "2026-09-21" },
+  { number: 21, sorties: 58, weight: 19.27, lastDraw: "2026-09-07" },
+  { number: 22, sorties: 58, weight: 19.27, lastDraw: "2026-09-21" },
+  { number: 23, sorties: 57, weight: 18.94, lastDraw: "2026-08-24" },
+  { number: 24, sorties: 56, weight: 18.60, lastDraw: "2026-09-10" },
+  { number: 25, sorties: 39, weight: 12.96, lastDraw: "2026-07-27" },
+  { number: 26, sorties: 42, weight: 13.95, lastDraw: "2026-08-17" },
+  { number: 27, sorties: 43, weight: 14.29, lastDraw: "2026-09-17" },
+  { number: 28, sorties: 47, weight: 15.61, lastDraw: "2026-09-07" },
+  { number: 29, sorties: 36, weight: 11.96, lastDraw: "2026-08-27" },
+  { number: 30, sorties: 52, weight: 17.28, lastDraw: "2026-08-27" },
+  { number: 31, sorties: 39, weight: 12.96, lastDraw: "2026-07-23" },
+  { number: 32, sorties: 44, weight: 14.62, lastDraw: "2026-09-07" },
+  { number: 33, sorties: 49, weight: 16.28, lastDraw: "2026-09-03" },
+  { number: 34, sorties: 43, weight: 14.29, lastDraw: "2026-09-14" },
+  { number: 35, sorties: 39, weight: 12.96, lastDraw: "2026-08-27" },
+  { number: 36, sorties: 30, weight: 9.97, lastDraw: "2026-08-17" },
+  { number: 37, sorties: 53, weight: 17.61, lastDraw: "2026-08-31" },
+  { number: 38, sorties: 49, weight: 16.28, lastDraw: "2026-09-21" },
+  { number: 39, sorties: 38, weight: 12.62, lastDraw: "2026-09-21" },
+  { number: 40, sorties: 42, weight: 13.95, lastDraw: "2026-09-10" },
 ];
 
 const DREAM_DATA = [
-  { number: 1, sorties: 59, weight: 22.78 },
-  { number: 2, sorties: 45, weight: 17.37 },
-  { number: 3, sorties: 57, weight: 22.01 },
-  { number: 4, sorties: 48, weight: 18.53 },
-  { number: 5, sorties: 50, weight: 19.31 },
+  { number: 1, sorties: 67, weight: 22.26, lastDraw: "2026-09-03" },
+  { number: 2, sorties: 53, weight: 17.61, lastDraw: "2026-08-31" },
+  { number: 3, sorties: 66, weight: 21.93, lastDraw: "2026-08-27" },
+  { number: 4, sorties: 57, weight: 18.94, lastDraw: "2026-09-17" },
+  { number: 5, sorties: 58, weight: 19.27, lastDraw: "2026-09-21" },
 ];
 
 const state = {
@@ -62,6 +62,7 @@ const state = {
 };
 
 const els = {
+  statisticsDate: document.querySelector("#statisticsDate"),
   drawAllButton: document.querySelector("#drawAllButton"),
   drawButton: document.querySelector("#drawButton"),
   resetButton: document.querySelector("#resetButton"),
@@ -82,6 +83,9 @@ const tileRefs = {
   main: new Map(),
   dream: new Map(),
 };
+const mainSlotRefs = [];
+const topBarRefs = [];
+const activeEffects = new Set();
 
 const percentFormatter = new Intl.NumberFormat("fr-FR", {
   minimumFractionDigits: 2,
@@ -93,9 +97,57 @@ const weightFormatter = new Intl.NumberFormat("fr-FR", {
   maximumFractionDigits: 2,
 });
 
+const dateFormatter = new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "2-digit", year: "2-digit", timeZone: "UTC" });
+
+function formatDate(date) {
+  return dateFormatter.format(new Date(`${date}T12:00:00Z`));
+}
+
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 let recentTimer = null;
 let celebrationTimer = null;
+
+function playEffect(element, keyframes, options = {}) {
+  if (reducedMotion.matches || document.hidden) {
+    return;
+  }
+  const effect = element.animate(keyframes, {
+    duration: 650,
+    easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+    ...options,
+  });
+  activeEffects.add(effect);
+  const forget = () => activeEffects.delete(effect);
+  effect.addEventListener("finish", forget, { once: true });
+  effect.addEventListener("cancel", forget, { once: true });
+}
+
+function clearEffects() {
+  activeEffects.forEach((effect) => effect.cancel());
+  activeEffects.clear();
+}
+
+function revealPicks(firstIndex) {
+  state.history.slice(firstIndex).forEach((entry, index) => {
+    const delay = index * 55;
+    const slot = entry.type === "main" ? mainSlotRefs[firstIndex + index] : els.dreamSlot;
+    const tile = tileRefs[entry.type].get(entry.number);
+    playEffect(slot, [
+      { transform: "translateY(8px) scale(.86)", opacity: .3 },
+      { transform: "translateY(-3px) scale(1.035)", opacity: 1, offset: .65 },
+      { transform: "translateY(0) scale(1)", opacity: 1 },
+    ], { delay, fill: "backwards" });
+    playEffect(tile, [
+      { transform: "translateY(3px) scale(.96)", opacity: .6 },
+      { transform: "translateY(-2px) scale(1.025)", opacity: 1, offset: .6 },
+      { transform: "translateY(0) scale(1)", opacity: 1 },
+    ], { delay, fill: "backwards" });
+    playEffect(els.historyList.children[firstIndex + index], [
+      { transform: "translateX(8px)", opacity: 0 },
+      { transform: "translateX(0)", opacity: 1 },
+    ], { delay, fill: "backwards" });
+  });
+}
 
 function sleep(ms) {
   return new Promise((resolve) => window.setTimeout(resolve, ms));
@@ -212,6 +264,9 @@ async function drawNext() {
     if (state.animationToken !== token) {
       return;
     }
+    if (reducedMotion.matches) {
+      break;
+    }
 
     const preview = weightedPick(phase.items).item.number;
     if (phase.kind === "main") {
@@ -245,13 +300,14 @@ function drawAll() {
   }
 
   window.clearTimeout(recentTimer);
+  const firstIndex = state.history.length;
   // Rebuild the pool after every pick, including when completing a partial draw.
   let phase = getPhase();
   while (!phase.done) {
     recordPick(phase, weightedPick(phase.items));
     phase = getPhase();
   }
-  finishDraw();
+  finishDraw(firstIndex);
 }
 
 function recordPick(phase, pick) {
@@ -288,8 +344,9 @@ function recordPick(phase, pick) {
   }
 }
 
-function finishDraw() {
+function finishDraw(firstIndex = state.history.length - 1) {
   render();
+  revealPicks(firstIndex);
   clearRecentPickSoon(state.recentPick);
 
   if (isComplete()) {
@@ -311,6 +368,7 @@ function clearRecentPickSoon(snapshot) {
 }
 
 function resetDraw() {
+  clearEffects();
   state.animationToken += 1;
   state.mainDraw = [];
   state.dreamDraw = null;
@@ -332,10 +390,15 @@ function getSelectedOrder(number) {
 }
 
 function renderMainSlots() {
-  els.mainSlots.innerHTML = "";
-
   for (let i = 0; i < 6; i += 1) {
-    const slot = document.createElement("div");
+    if (!mainSlotRefs[i]) {
+      const slot = document.createElement("div");
+      slot.innerHTML = '<span class="slot-value"></span>';
+      slot.style.setProperty("--reveal-delay", `${i * 55}ms`);
+      mainSlotRefs.push(slot);
+      els.mainSlots.append(slot);
+    }
+    const slot = mainSlotRefs[i];
     const value = state.mainDraw[i];
     const isRolling = state.isAnimating && state.rollKind === "main" && i === state.mainDraw.length;
     const isFresh = state.recentPick?.kind === "main" && state.recentPick.position === i + 1;
@@ -347,9 +410,11 @@ function renderMainSlots() {
     ]
       .filter(Boolean)
       .join(" ");
-    slot.textContent = value || (isRolling && state.previewMain ? state.previewMain : "—");
+    const text = String(value || (isRolling && state.previewMain ? state.previewMain : "—"));
+    if (slot.firstElementChild.textContent !== text) {
+      slot.firstElementChild.textContent = text;
+    }
     slot.setAttribute("aria-label", `Boule ${i + 1} : ${value || (isRolling ? "en cours" : "à tirer")}`);
-    els.mainSlots.append(slot);
   }
 
   const dreamRolling = state.isAnimating && state.rollKind === "dream";
@@ -363,7 +428,14 @@ function renderMainSlots() {
   ]
     .filter(Boolean)
     .join(" ");
-  els.dreamSlot.textContent = state.dreamDraw || (dreamRolling && state.previewDream ? state.previewDream : "—");
+  if (!els.dreamSlot.firstElementChild) {
+    els.dreamSlot.innerHTML = '<span class="slot-value"></span>';
+    els.dreamSlot.style.setProperty("--reveal-delay", "330ms");
+  }
+  const dreamText = String(state.dreamDraw || (dreamRolling && state.previewDream ? state.previewDream : "—"));
+  if (els.dreamSlot.firstElementChild.textContent !== dreamText) {
+    els.dreamSlot.firstElementChild.textContent = dreamText;
+  }
   els.dreamSlot.setAttribute("aria-label", `Dream : ${state.dreamDraw || (dreamRolling ? "en cours" : "à tirer")}`);
 }
 
@@ -456,18 +528,20 @@ function renderMetrics() {
 
 function ensureTiles() {
   if (!tileRefs.main.size) {
-    MAIN_DATA.forEach((item) => {
+    MAIN_DATA.forEach((item, index) => {
       const tile = createTileElement();
       tileRefs.main.set(item.number, tile);
       els.numberGrid.append(tile);
+      playEffect(tile, [{ opacity: 0, transform: "translateY(8px)" }, { opacity: 1, transform: "translateY(0)" }], { delay: index * 12, fill: "backwards" });
     });
   }
 
   if (!tileRefs.dream.size) {
-    DREAM_DATA.forEach((item) => {
+    DREAM_DATA.forEach((item, index) => {
       const tile = createTileElement();
       tileRefs.dream.set(item.number, tile);
       els.dreamGrid.append(tile);
+      playEffect(tile, [{ opacity: 0, transform: "translateY(8px)" }, { opacity: 1, transform: "translateY(0)" }], { delay: 120 + index * 35, fill: "backwards" });
     });
   }
 }
@@ -486,7 +560,13 @@ function createTileElement() {
       <span class="tile-arrow" aria-hidden="true">→</span>
       <strong class="tile-chance" data-role="chance"></strong>
     </div>
-    <div class="weight-meter" aria-hidden="true"><span data-role="weightFill"></span></div>
+    <div class="tile-footer">
+      <div class="weight-meter" aria-hidden="true"><span data-role="weightFill"></span></div>
+      <span class="tile-last-draw" title="Dernière sortie">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="2"/><path d="M5 1v4M11 1v4M2 7h12"/></svg>
+        <time data-role="lastDraw"></time>
+      </span>
+    </div>
   `;
   return tile;
 }
@@ -525,7 +605,7 @@ function updateTile(item, options) {
           : "En course";
   const chanceLabel = isSelected ? "Au tirage" : "Prochaine";
   const chanceValue = isSelected && historyEntry ? historyEntry.chance : probability;
-  const description = `${options.label} ${item.number}, ${item.sorties} sorties, historique ${weightFormatter.format(item.weight)} %, ${chanceLabel.toLowerCase()} ${percentFormatter.format(chanceValue)} %, ${status.toLowerCase()}${order ? ` (${order})` : ""}`;
+  const description = `${options.label} ${item.number}, ${item.sorties} sorties, historique ${weightFormatter.format(item.weight)} %, ${chanceLabel.toLowerCase()} ${percentFormatter.format(chanceValue)} %, dernière sortie le ${formatDate(item.lastDraw)}, ${status.toLowerCase()}${order ? ` (${order})` : ""}`;
   tile.setAttribute("aria-label", description);
   tile.title = description;
 
@@ -534,6 +614,8 @@ function updateTile(item, options) {
   tile.querySelector('[data-role="order"]').setAttribute("aria-label", order ? `Ordre du tirage : ${order}` : "");
   tile.querySelector('[data-role="sorties"]').textContent = `${item.sorties} sorties`;
   tile.querySelector('[data-role="weight"]').textContent = `${weightFormatter.format(item.weight)}%`;
+  tile.querySelector('[data-role="lastDraw"]').dateTime = item.lastDraw;
+  tile.querySelector('[data-role="lastDraw"]').textContent = formatDate(item.lastDraw);
   tile.querySelector('[data-role="chance"]').title = chanceLabel;
   tile.querySelector('[data-role="chance"]').textContent =
     isMuted && !isSelected ? "—" : `${percentFormatter.format(chanceValue)}%`;
@@ -584,22 +666,28 @@ function renderTopBars() {
 
   if (!topItems.length) {
     els.topBars.innerHTML = `<p class="empty-state">Terminé</p>`;
+    topBarRefs.length = 0;
     return;
   }
 
-  els.topBars.innerHTML = topItems
-    .map((item) => {
-      const width = maxProbability ? (item.probability / maxProbability) * 100 : 0;
-      const isPreview = showDream ? state.previewDream === item.number : state.previewMain === item.number;
-      return `
-        <div class="bar-row ${isPreview ? "is-preview" : ""}">
-          <span class="bar-number">${showDream ? "D" : ""}${item.number}</span>
-          <span class="bar-track"><span class="bar-fill" style="width: ${width}%"></span></span>
-          <span class="bar-value">${percentFormatter.format(item.probability)}%</span>
-        </div>
-      `;
-    })
-    .join("");
+  while (topBarRefs.length > topItems.length) {
+    topBarRefs.pop().remove();
+  }
+  topItems.forEach((item, index) => {
+    if (!topBarRefs[index]) {
+      const row = document.createElement("div");
+      row.className = "bar-row";
+      row.innerHTML = '<span class="bar-number"></span><span class="bar-track"><span class="bar-fill"></span></span><span class="bar-value"></span>';
+      topBarRefs.push(row);
+      els.topBars.append(row);
+    }
+    const row = topBarRefs[index];
+    const width = maxProbability ? (item.probability / maxProbability) * 100 : 0;
+    row.classList.toggle("is-preview", showDream ? state.previewDream === item.number : state.previewMain === item.number);
+    row.querySelector(".bar-number").textContent = `${showDream ? "D" : ""}${item.number}`;
+    row.querySelector(".bar-fill").style.width = `${width}%`;
+    row.querySelector(".bar-value").textContent = `${percentFormatter.format(item.probability)}%`;
+  });
 }
 
 function renderHistory() {
@@ -633,9 +721,11 @@ function launchCelebration() {
   for (let i = 0; i < 36; i += 1) {
     const spark = document.createElement("span");
     const angle = (Math.PI * 2 * i) / 36;
-    const distance = 110 + Math.random() * 180;
+    const distance = 45 + Math.random() * 155;
     spark.className = "spark";
     spark.style.setProperty("--spark-color", colors[i % colors.length]);
+    spark.style.left = `${45 + Math.random() * 45}%`;
+    spark.style.setProperty("--size", `${3 + Math.random() * 4}px`);
     spark.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
     spark.style.setProperty("--y", `${Math.sin(angle) * distance}px`);
     spark.style.setProperty("--delay", `${Math.random() * 120}ms`);
@@ -649,6 +739,7 @@ function launchCelebration() {
 
 function render() {
   document.body.classList.toggle("is-animating", state.isAnimating);
+  document.body.classList.toggle("is-complete", isComplete());
   renderMainSlots();
   renderButton();
   renderLiveStatus();
@@ -661,6 +752,13 @@ function render() {
 els.drawAllButton.addEventListener("click", drawAll);
 els.drawButton.addEventListener("click", drawNext);
 els.resetButton.addEventListener("click", resetDraw);
+reducedMotion.addEventListener("change", () => {
+  if (reducedMotion.matches) {
+    clearEffects();
+    window.clearTimeout(celebrationTimer);
+    els.celebrationLayer.innerHTML = "";
+  }
+});
 
 document.addEventListener("keydown", (event) => {
   if (event.repeat || event.ctrlKey || event.altKey || event.metaKey || event.shiftKey || event.isComposing || event.defaultPrevented) {
@@ -685,4 +783,7 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+const latestDrawDate = [...MAIN_DATA, ...DREAM_DATA].map((item) => item.lastDraw).sort().at(-1);
+els.statisticsDate.dateTime = latestDrawDate;
+els.statisticsDate.textContent = formatDate(latestDrawDate);
 render();
