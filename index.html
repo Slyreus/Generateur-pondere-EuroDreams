@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Eurodreams - Tirage pondéré</title>
+    <title>EuroDreams · Tirage pondéré</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -12,92 +12,88 @@
         <div class="brand-block">
           <div class="brand-mark" aria-hidden="true">ED</div>
           <div>
-            <p class="eyebrow">Eurodreams</p>
-            <h1>Tirage pondéré</h1>
-            <p class="data-note">Statistiques fournies - dernière mise à jour : <strong>27/04/26</strong></p>
+            <h1>EuroDreams</h1>
+            <p class="data-note">Tirage pondéré · Stats au <time id="statisticsDate" datetime="2026-09-21">21/09/26</time></p>
           </div>
         </div>
 
         <div class="control-strip" aria-label="Commandes de tirage">
-          <button class="primary-action" id="drawButton" type="button">Tirer la première boule</button>
-          <button class="secondary-action" id="resetButton" type="button">Reset</button>
+          <button class="primary-action" id="drawAllButton" type="button">Tout tirer</button>
+          <button class="secondary-action" id="drawButton" type="button">1 boule</button>
+          <button class="reset-action" id="resetButton" type="button" aria-label="Réinitialiser" title="Réinitialiser (R)">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10a9 9 0 1 1 2 8M3 4v6h6" /></svg>
+          </button>
         </div>
       </header>
 
       <section class="draw-stage" aria-labelledby="drawTitle">
         <div class="stage-copy">
-          <p class="eyebrow">Tirage en cours</p>
-          <h2 id="drawTitle">6 numéros + 1 numéro Dream</h2>
-          <div class="progress-line" aria-hidden="true">
-            <span id="progressFill"></span>
-          </div>
-          <p class="live-status" id="liveStatus" aria-live="polite">Prêt pour le tirage pondéré.</p>
+          <h2 id="drawTitle">6 numéros <span>+ Dream</span></h2>
+          <p class="live-status" id="liveStatus" role="status" aria-live="polite" aria-atomic="true">Prêt · 0/7</p>
         </div>
 
         <div class="slot-panel" aria-label="Résultat actuel">
           <div class="slot-group" id="mainSlots"></div>
           <div class="dream-slot-wrap">
             <span class="dream-label">Dream</span>
-            <div class="slot dream-slot" id="dreamSlot">-</div>
+            <div class="slot dream-slot" id="dreamSlot">—</div>
           </div>
         </div>
 
-        <div class="metrics-grid" id="metricsGrid" aria-label="Métriques de tirage"></div>
+        <div class="progress-line" id="drawProgress" role="progressbar" aria-label="Avancement du tirage" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0">
+          <span id="progressFill"></span>
+        </div>
+        <details class="stats-details">
+          <summary>Statistiques</summary>
+          <div class="metrics-grid" id="metricsGrid" aria-label="Métriques de tirage"></div>
+        </details>
         <div class="celebration-layer" id="celebrationLayer" aria-hidden="true"></div>
       </section>
 
       <section class="content-grid">
         <section class="data-section numbers-section" aria-labelledby="numbersTitle">
           <div class="section-heading">
-            <div>
-              <p class="eyebrow">Numéros principaux</p>
-              <h2 id="numbersTitle">Pondération 1 à 40</h2>
-            </div>
+            <h2 id="numbersTitle">Numéros <span>1–40</span></h2>
             <div class="legend" aria-label="Légende">
-              <span><i class="legend-dot original"></i>Poids relatif</span>
+              <span><i class="legend-dot original"></i>Poids</span>
               <span><i class="legend-dot selected"></i>Tiré</span>
             </div>
           </div>
-          <div class="method-note">
-            <span><strong>Historique</strong> = part des tirages observés où le numéro est sorti.</span>
-            <span><strong>Prochaine</strong> = poids du numéro divisé par la somme des poids encore disponibles.</span>
-            <span><strong>Barre bleue</strong> = poids historique relatif au numéro le plus fort.</span>
-          </div>
+          <div class="reading-key">Historique <span aria-hidden="true">→</span> <strong>Prochaine / au tirage</strong></div>
           <div class="number-grid main-grid" id="numberGrid"></div>
-        </section>
 
-        <aside class="side-stack">
-          <section class="data-section dream-section" aria-labelledby="dreamTitle">
-            <div class="section-heading compact-heading">
-              <div>
-                <p class="eyebrow">Numéro Dream</p>
-                <h2 id="dreamTitle">Pondération 1 à 5</h2>
-              </div>
+          <section class="dream-section" aria-labelledby="dreamTitle">
+            <div class="section-heading">
+              <h2 id="dreamTitle">Dream <span>1–5</span></h2>
             </div>
             <div class="number-grid dream-grid" id="dreamGrid"></div>
           </section>
 
+          <details class="method-note">
+            <summary>Lire les chiffres</summary>
+            <p><strong>Historique</strong> : fréquence observée. <strong>Prochaine</strong> : poids ÷ poids restant ; recalculé après chaque boule.</p>
+            <p>En vert : numéro tiré, ordre en pastille, probabilité au tirage. Barre bleue : poids relatif au maximum. Calendrier : dernière sortie. Cadre bleu : favori ; ambre : rotation.</p>
+          </details>
+        </section>
+
+        <aside class="side-stack">
           <section class="data-section chart-section" aria-labelledby="chartTitle">
-            <div class="section-heading compact-heading">
-              <div>
-                <p class="eyebrow">Lecture instantanée</p>
-                <h2 id="chartTitle">Top pondérations restantes</h2>
-              </div>
+            <div class="section-heading">
+              <h2 id="chartTitle">Favoris restants</h2>
             </div>
             <div class="bars" id="topBars"></div>
           </section>
 
           <section class="data-section history-section" aria-labelledby="historyTitle">
-            <div class="section-heading compact-heading">
-              <div>
-                <p class="eyebrow">Journal</p>
-                <h2 id="historyTitle">Séquence du tirage</h2>
-              </div>
+            <div class="section-heading">
+              <h2 id="historyTitle">Ordre du tirage</h2>
             </div>
+            <div class="history-key" aria-hidden="true"><span>N°</span><span>Historique</span><span>Au tirage</span></div>
             <ol class="history-list" id="historyList"></ol>
           </section>
         </aside>
       </section>
+      <footer><span><kbd>Espace</kbd> 1 boule · <kbd>R</kbd> Réinitialiser</span></footer>
     </main>
 
     <script src="./app.js" defer></script>

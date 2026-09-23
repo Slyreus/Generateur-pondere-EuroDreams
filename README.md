@@ -1,4 +1,4 @@
-# Eurodreams
+# EuroDreams
 
 Interface locale de tirage EuroDreams pondéré à partir des statistiques fournies.
 
@@ -12,11 +12,17 @@ Interface locale de tirage EuroDreams pondéré à partir des statistiques fourn
 
 Le tirage sélectionne 6 numéros parmi 1 à 40, sans doublon, puis 1 numéro Dream parmi 1 à 5. À chaque tirage, les numéros déjà sortis sont retirés et la probabilité de la prochaine boule est recalculée sur le poids restant.
 
-Les poids utilisés sont les `% de sorties` fournis, avec une dernière mise à jour au 27/04/26.
+Les poids utilisés sont les `% de sorties` fournis, arrêtés au 21/09/26 (301 tirages). Chaque carte conserve aussi le nombre de sorties et la date de dernière apparition.
 
-L'interface anime chaque étape : rotation visuelle avant sélection, mise à jour fluide des pondérations, surbrillance de la boule tirée, journal dynamique et célébration à la fin du tirage.
+**Tout tirer** génère le ticket complet immédiatement. Après une ou plusieurs boules, **Compléter** tire uniquement les numéros restants et le Dream. **1 boule** conserve le tirage animé étape par étape. La réinitialisation annule aussi une animation en cours.
 
-Dans les cartes, `Historique` correspond au `% de sorties` du tableau source. `Prochaine` correspond à la probabilité instantanée du tirage pondéré, calculée avec le poids du numéro divisé par la somme des poids encore disponibles. La barre bleue affiche seulement le poids historique relatif au poids le plus élevé.
+Chaque carte affiche le nombre de sorties et les pourcentages **historique → prochaine boule**. En vert, le second pourcentage est celui au moment du tirage ; la pastille indique l'ordre. La barre bleue représente le poids historique relatif au maximum.
+
+Les neuf indicateurs restent accessibles dans **Statistiques**. Le classement, le journal et l'aide **Lire les chiffres** complètent la grille compacte, adaptée aux écrans mobiles.
+
+Raccourcis : **Espace** ou **Entrée** pour une boule, **R** pour réinitialiser. Lorsqu'un bouton ou une aide a le focus, Entrée et Espace conservent leur action habituelle.
+
+Les numéros apparaissent en cascade, avec des reflets, une lumière de fond et des transitions douces sur les cartes et le classement. Les effets respectent la préférence de réduction des mouvements et s'annulent à la réinitialisation.
 
 ## Lancer
 
